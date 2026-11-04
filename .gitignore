@@ -1,0 +1,21 @@
+# Rime 本地编译输出与二进制文件
+build/
+*.bin
+*.reverse.bin
+*.table.bin
+*.prism.bin
+
+# 用户个人词典动态数据库（避免同步个人历史隐私）
+*.userdb/
+*.userdb.txt
+
+# 机器特定安装信息与动态构建戳
+user.yaml
+installation.yaml
+
+# 系统与临时文件
+*.log
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db
