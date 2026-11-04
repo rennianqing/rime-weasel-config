@@ -15,13 +15,14 @@
    * 中文输入状态下直接键入英文字母（如 `appl`）即可实时获得 `apple` 等单词补全及中文释义；
    * 具备智能大写（`autocap_filter`）与英文候选降频（`reduce_english_filter`）机制，互不干扰。
 
-3. **快捷键强制候选词置顶**：
-   * 键位：**`Ctrl + Alt + P`**（**P** = **P**in 置顶）；
-   * 操作：在打字浮现候选框时，将光标移至目标词按下该快捷键，该词即可瞬间跳至第 1 位，并在后续输入中永久锁定首位；
-   * 规则自动持久化保存在 `pinned_candidates.txt` 中。
+3. **快捷键自由置顶与取消置顶**：
+   * **强制置顶**：**`Ctrl + Alt + P`**（**P** = **P**in）。候选框出现时选中目标词按下，该词瞬间锁定至第 1 位；
+   * **取消置顶**：**`Ctrl + Alt + U`**（**U** = **U**npin）。选中已置顶词按下，立即恢复正常词频排序；
+   * 置顶规则自动写入并持久化保存在 `pinned_candidates.txt` 中。
 
-4. **视觉与字体精修**：
+4. **现代化 UI 与字体精修**：
    * **配色方案**：`dark_temple`（深灰高对比度暗黑武士风格）；
+   * **轮廓质感**：现代 Windows 11 Fluent 风格，`8px` 窗口大圆角、`6px` 候选色块圆角与 `1px` 精致石墨灰立体细边框（`#444444`），彻底告别深色背景融色与直角生硬感；
    * **候选词字体**：`HarmonyOS Sans SC`（华为鸿蒙黑体，字形端正锐利）；
    * **序号字体**：`Segoe UI`（修长现代西文字体）；
    * **候选词个数**：横排 **9 个候选词**，字号微调至 `15pt`，间距层次分明；
@@ -36,7 +37,7 @@ user/
 ├── cn_dicts/              # 中文词库（8105, base, ext, tencent, others）
 ├── en_dicts/              # 英汉混输词库（cn_en, en, en_ext）
 ├── lua/                   # Lua 扩展脚本
-│   ├── pin_candidate.lua  # Ctrl+Alt+P 快捷键置顶处理器
+│   ├── pin_candidate.lua  # Ctrl+Alt+P 置顶与 Ctrl+Alt+U 取消置顶处理器
 │   ├── pin_store.lua      # 置顶词内存管理与文件持久化
 │   ├── pin_cand_filter.lua# 置顶候选项排序滤镜
 │   ├── date_translator.lua# 日期时间快捷输入（rq, sj）

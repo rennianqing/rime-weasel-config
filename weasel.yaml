@@ -93,7 +93,7 @@ style:
     max_width: 0                           # 候选框最大宽度，horizontal 布局如宽超此尺寸则换行显示候选，设置为 0 不启用此功能
     min_height: 0                          # 候选框最小高度
     min_width: 10                          # 候选框最小宽度
-    border_width: 2                        # 边框宽度；又名 border
+    border_width: 1                        # 边框宽度；又名 border
     margin_x: 8                            # 主体元素和候选框的左右边距；为负值时，不显示候选框
     margin_y: 8                            # 主体元素的上下边距；为负值时，不显示候选框
     spacing: 13                            # inline_preedit 为否时，编码区域和候选区域的间距
@@ -106,7 +106,7 @@ style:
     shadow_offset_x: 4                     # 阴影左右偏移距离
     shadow_offset_y: 4                     # 阴影上下偏移距离
     corner_radius: 8                       # 候选窗口圆角半径
-    round_corner: 8                        # 候选背景色块圆角半径，又名 hilited_corner_radius
+    round_corner: 6                        # 候选背景色块圆角半径，又名 hilited_corner_radius
     # type: vertical                       # 布局设置，效果和 style 下的设置相同：
                                            # horizontal（横向）；vertical（竖向） ; vertical_text（竖排文本） ; vertical+fullscreen（全屏） ; horizontal+fullscreen（横向全屏）
 # [End of <style>]
@@ -243,7 +243,7 @@ preset_color_schemes:
     text_color: 0x92f6da
     candidate_text_color: 0xd8e3e6
     back_color: 0x222222
-    border_color: 0x222222
+    border_color: 0x444444
     hilited_text_color: 0xffcf9a
     hilited_back_color: 0x222222
     hilited_candidate_text_color: 0x92f6da

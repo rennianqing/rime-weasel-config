@@ -2,7 +2,7 @@ customization:
   distribution_code_name: Weasel
   distribution_version: 0.17.4
   generator: "Weasel::UIStyleSettings"
-  modified_time: "Wed Nov  4 11:05:00 2026"
+  modified_time: "Wed Nov  4 11:40:00 2026"
   rime_version: 1.13.1
 patch:
   "style/color_scheme": dark_temple
@@ -12,3 +12,18 @@ patch:
   "style/font_point": 15
   "style/label_font_point": 13
   "style/comment_font_point": 13
+  "style/layout/border_width": 1
+  "style/layout/corner_radius": 8
+  "style/layout/round_corner": 6
+  "preset_color_schemes/dark_temple":
+    name: "暗堂／Dark Temple"
+    author: "佛振 <chen.sst@gmail.com>, based on ir_black"
+    text_color: 0x92f6da
+    candidate_text_color: 0xd8e3e6
+    back_color: 0x222222
+    border_color: 0x444444
+    hilited_text_color: 0xffcf9a
+    hilited_back_color: 0x222222
+    hilited_candidate_text_color: 0x92f6da
+    hilited_candidate_back_color: 0x333333
+    comment_text_color: 0x606cff

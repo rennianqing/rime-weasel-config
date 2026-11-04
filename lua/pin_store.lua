@@ -44,12 +44,31 @@ function pin_store.load()
         -- 若文件不存在，初始化空文件及说明头
         local wf = io.open(pin_store.filepath, "w")
         if wf then
-            wf:write("# 快捷键置顶候选词列表 (Ctrl+Alt+P 自动添加)\n")
+            wf:write("# 快捷键置顶候选词列表 (Ctrl+Alt+P 置顶, Ctrl+Alt+U 取消置顶)\n")
             wf:write("# 格式：编码<Tab>字词（支持手动编辑，编辑后重新部署即可生效）\n")
             wf:close()
         end
     end
     pin_store.loaded = true
+end
+
+function pin_store.save()
+    if not pin_store.filepath then
+        pin_store.filepath = get_file_path()
+    end
+    local f = io.open(pin_store.filepath, "w")
+    if f then
+        f:write("# 快捷键置顶候选词列表 (Ctrl+Alt+P 置顶, Ctrl+Alt+U 取消置顶)\n")
+        f:write("# 格式：编码<Tab>字词（支持手动编辑，编辑后重新部署即可生效）\n")
+        for c, words in pairs(pin_store.data) do
+            for _, w in ipairs(words) do
+                f:write(c .. "\t" .. w .. "\n")
+            end
+        end
+        f:close()
+        return true
+    end
+    return false
 end
 
 function pin_store.has_any()
@@ -62,6 +81,18 @@ function pin_store.get(code)
     if not code then return nil end
     local clean_code = code:gsub("%s+", "")
     return pin_store.data[clean_code]
+end
+
+function pin_store.is_pinned(code, text)
+    pin_store.load()
+    if not code or not text then return false end
+    local clean_code = code:gsub("%s+", "")
+    local list = pin_store.data[clean_code]
+    if not list then return false end
+    for _, w in ipairs(list) do
+        if w == text then return true end
+    end
+    return false
 end
 
 function pin_store.add(code, text)
@@ -81,17 +112,32 @@ function pin_store.add(code, text)
     table.insert(list, 1, text)
     pin_store.data[clean_code] = list
 
-    -- 持久化写入文件
-    local f = io.open(pin_store.filepath, "w")
-    if f then
-        f:write("# 快捷键置顶候选词列表 (Ctrl+Alt+P 自动添加)\n")
-        f:write("# 格式：编码<Tab>字词（支持手动编辑，编辑后重新部署即可生效）\n")
-        for c, words in pairs(pin_store.data) do
-            for _, w in ipairs(words) do
-                f:write(c .. "\t" .. w .. "\n")
-            end
+    return pin_store.save()
+end
+
+function pin_store.remove(code, text)
+    pin_store.load()
+    if not code or not text or #code == 0 or #text == 0 then return false end
+
+    local clean_code = code:gsub("%s+", "")
+    local list = pin_store.data[clean_code]
+    if not list then return false end
+
+    local removed = false
+    for i = #list, 1, -1 do
+        if list[i] == text then
+            table.remove(list, i)
+            removed = true
         end
-        f:close()
+    end
+
+    if removed then
+        if #list == 0 then
+            pin_store.data[clean_code] = nil
+        else
+            pin_store.data[clean_code] = list
+        end
+        pin_store.save()
         return true
     end
     return false
