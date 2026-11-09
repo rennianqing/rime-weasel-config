@@ -101,6 +101,16 @@ Root: HKLM; Subkey: "Software\Rime\Weasel"; ValueType: string; ValueName: "RimeU
 ; HKCU 注册表路径配置
 Root: HKCU; Subkey: "Software\Rime\Weasel"; ValueType: string; ValueName: "WeaselServerRoot"; ValueData: "{app}\weasel-0.17.4"; Flags: uninsdeletevalue
 Root: HKCU; Subkey: "Software\Rime\Weasel"; ValueType: string; ValueName: "RimeUserDir"; ValueData: "{app}\user"; Flags: uninsdeletevalue
+Root: HKCU; Subkey: "Software\Rime\Weasel"; ValueType: string; ValueName: "ToggleImeOnOpenClose"; ValueData: "no"; Flags: uninsdeletevalue
+
+; 彻底注销 Windows 00000010 与 00000070 系统热键强占（保证 Ctrl+Space 极速即刻响应，彻底消除释放时序依赖）
+Root: HKCU; Subkey: "Control Panel\Input Method\Hot Keys\00000010"; ValueType: binary; ValueName: "Key Modifiers"; ValueData: "00 c0 00 00"; Flags: uninsdeletekeyifempty
+Root: HKCU; Subkey: "Control Panel\Input Method\Hot Keys\00000010"; ValueType: binary; ValueName: "Virtual Key"; ValueData: "ff 00 00 00"; Flags: uninsdeletekeyifempty
+Root: HKCU; Subkey: "Control Panel\Input Method\Hot Keys\00000010"; ValueType: binary; ValueName: "Target IME"; ValueData: "00 00 00 00"; Flags: uninsdeletekeyifempty
+
+Root: HKCU; Subkey: "Control Panel\Input Method\Hot Keys\00000070"; ValueType: binary; ValueName: "Key Modifiers"; ValueData: "00 c0 00 00"; Flags: uninsdeletekeyifempty
+Root: HKCU; Subkey: "Control Panel\Input Method\Hot Keys\00000070"; ValueType: binary; ValueName: "Virtual Key"; ValueData: "ff 00 00 00"; Flags: uninsdeletekeyifempty
+Root: HKCU; Subkey: "Control Panel\Input Method\Hot Keys\00000070"; ValueType: binary; ValueName: "Target IME"; ValueData: "00 00 00 00"; Flags: uninsdeletekeyifempty
 
 [Icons]
 Name: "{group}\小狼毫输入法设定"; Filename: "{app}\weasel-0.17.4\WeaselDeployer.exe"; WorkingDir: "{app}\weasel-0.17.4"
