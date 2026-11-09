@@ -10,6 +10,13 @@ WEASEL_SRC = r"D:\Program Files\Rime\weasel-0.17.4"
 os.makedirs(STAGING_DIR, exist_ok=True)
 os.makedirs(DIST_DIR, exist_ok=True)
 
+# 0. Stage fonts
+fonts_dir = os.path.join(STAGING_DIR, 'fonts')
+os.makedirs(fonts_dir, exist_ok=True)
+font_src = r'C:\Windows\Fonts'
+for f in ['HarmonyOS_Sans_SC_Regular.ttf', 'HarmonyOS_Sans_SC_Bold.ttf', 'HarmonyOS_Sans_SC_Medium.ttf']:
+    shutil.copy2(os.path.join(font_src, f), os.path.join(fonts_dir, f))
+
 # 1. Stage weasel binaries
 weasel_dst = os.path.join(STAGING_DIR, "weasel-0.17.4")
 if os.path.exists(weasel_dst):
