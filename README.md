@@ -28,12 +28,18 @@
    * **候选词个数**：横排 **9 个候选词**，字号微调至 `15pt`，间距层次分明；
    * **Emoji 净化**：彻底禁用并移除了图片表情干扰。
 
+5. **实用符号联想（纯净无 Emoji 干扰）**：
+   * 原生挂载专用特殊符号库（数学、希腊字母、单位、箭头、图形等）；
+   * 支持自然拼音联想常用符号：如输入 cheng 候选出现 ×，输入 chu 出现 ÷，输入 jia 出现 +，输入 jian 出现 -，输入 dengyu 出现 =，输入 gou / dui 出现 √，输入 du 出现 °，输入 pai 出现 π，输入 jiantou 出现 → 等；
+   * 严格过滤所有彩色图片表情（Emoji），保持输入面板纯粹专业。
+
 ---
 
 ## 📁 目录结构
 
 ```text
 user/
+├── opencc/                # 特殊符号转换词库（symbols.json, symbols.txt）
 ├── cn_dicts/              # 中文词库（8105, base, ext, tencent, others）
 ├── en_dicts/              # 英汉混输词库（cn_en, en, en_ext）
 ├── lua/                   # Lua 扩展脚本
