@@ -50,6 +50,7 @@ engine:
     - recognizer
     - key_binder
     - speller
+    - lua_processor@*digit_punct       # 数字后核心分隔符(,.:)默认半角，删后重输转全角
     - punctuator
     - selector
     - navigator
