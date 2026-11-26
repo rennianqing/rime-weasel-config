@@ -1,7 +1,7 @@
 -- lua/pin_candidate.lua
 -- 处理快捷键：
---   Ctrl + Alt + P: 将当前选中的候选词强制置顶（Pin）
---   Ctrl + Alt + U: 将当前选中的候选词取消置顶（Unpin）
+--   Ctrl + ↑ (Control+Up):   将当前选中的候选词强制置顶（Pin）
+--   Ctrl + ↓ (Control+Down): 将当前选中的候选词取消置顶（Unpin）
 local pin_store = require("pin_store")
 
 local processor = {}
@@ -16,16 +16,14 @@ function processor.func(key, env)
     -- 只有按键按下且当前存在候选菜单时才处理
     if not key:release() and context:has_menu() then
         local repr = key:repr()
-        local is_p = (key.keycode == 112 or key.keycode == 80) -- 'p' 或 'P'
-        local is_u = (key.keycode == 117 or key.keycode == 85) -- 'u' 或 'U'
-        local is_ctrl_alt = key:ctrl() and key:alt() and not key:shift()
+        local is_ctrl_only = key:ctrl() and not key:alt() and not key:shift()
+        local is_up = (key.keycode == 0xff52)   -- Up (XK_Up)
+        local is_down = (key.keycode == 0xff54) -- Down (XK_Down)
 
-        local is_ctrl_alt_p = (is_ctrl_alt and is_p)
-            or (repr == "Control+Alt+p" or repr == "Control+Alt+P" or repr == "Alt+Control+p" or repr == "Alt+Control+P")
-        local is_ctrl_alt_u = (is_ctrl_alt and is_u)
-            or (repr == "Control+Alt+u" or repr == "Control+Alt+U" or repr == "Alt+Control+u" or repr == "Alt+Control+U")
+        local is_pin = (is_ctrl_only and is_up) or (repr == "Control+Up")
+        local is_unpin = (is_ctrl_only and is_down) or (repr == "Control+Down")
 
-        if is_ctrl_alt_p or is_ctrl_alt_u then
+        if is_pin or is_unpin then
             local cand = context:get_selected_candidate()
             if cand then
                 local text = cand.text
@@ -35,7 +33,7 @@ function processor.func(key, env)
                 end
 
                 if text and #text > 0 and code and #code > 0 then
-                    if is_ctrl_alt_p then
+                    if is_pin then
                         pin_store.add(code, text)
                     else
                         pin_store.remove(code, text)

@@ -1,8 +1,8 @@
-﻿; Inno Setup Script for Rime Weasel Custom Package
+﻿ ; Inno Setup Script for Rime Weasel Custom Package
 ; Generated for rennianqing/rime-weasel-config
 
 #define MyAppName "小狼毫输入法"
-#define MyAppVersion "1.1.0"
+#define MyAppVersion "1.2.0"
 #define MyAppPublisher "rennianqing"
 #define MyAppURL "https://github.com/rennianqing/rime-weasel-config"
 #define MyAppExeName "WeaselServer.exe"
@@ -19,7 +19,7 @@ DefaultDirName=D:\Program Files\Rime
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
 OutputDir=D:\Program Files\Rime\dist
-OutputBaseFilename=Weasel-Setup-v1.1.0-Enhanced
+OutputBaseFilename=Weasel-Setup-v1.2.0-Enhanced
 Compression=lzma2/ultra64
 SolidCompression=yes
 PrivilegesRequired=admin
@@ -53,6 +53,19 @@ Root: HKLM; Subkey: "Software\Rime\Weasel"; ValueType: string; ValueName: "RimeU
 ; HKCU 注册表路径配置
 Root: HKCU; Subkey: "Software\Rime\Weasel"; ValueType: string; ValueName: "WeaselServerRoot"; ValueData: "{app}\weasel-0.17.4"; Flags: uninsdeletevalue
 Root: HKCU; Subkey: "Software\Rime\Weasel"; ValueType: string; ValueName: "RimeUserDir"; ValueData: "{app}\user"; Flags: uninsdeletevalue
+Root: HKCU; Subkey: "Software\Rime\Weasel"; ValueType: string; ValueName: "ToggleImeOnOpenClose"; ValueData: "no"; Flags: uninsdeletevalue
+
+; 彻底注销 Windows 00000010 与 00000070 系统热键强占（保证 Ctrl+Space 极速即刻响应，彻底消除释放时序依赖）
+Root: HKCU; Subkey: "Control Panel\Input Method\Hot Keys\00000010"; ValueType: binary; ValueName: "Key Modifiers"; ValueData: "00 c0 00 00"; Flags: uninsdeletekeyifempty
+Root: HKCU; Subkey: "Control Panel\Input Method\Hot Keys\00000010"; ValueType: binary; ValueName: "Virtual Key"; ValueData: "ff 00 00 00"; Flags: uninsdeletekeyifempty
+Root: HKCU; Subkey: "Control Panel\Input Method\Hot Keys\00000010"; ValueType: binary; ValueName: "Target IME"; ValueData: "00 00 00 00"; Flags: uninsdeletekeyifempty
+
+Root: HKCU; Subkey: "Control Panel\Input Method\Hot Keys\00000070"; ValueType: binary; ValueName: "Key Modifiers"; ValueData: "00 c0 00 00"; Flags: uninsdeletekeyifempty
+Root: HKCU; Subkey: "Control Panel\Input Method\Hot Keys\00000070"; ValueType: binary; ValueName: "Virtual Key"; ValueData: "ff 00 00 00"; Flags: uninsdeletekeyifempty
+Root: HKCU; Subkey: "Control Panel\Input Method\Hot Keys\00000070"; ValueType: binary; ValueName: "Target IME"; ValueData: "00 00 00 00"; Flags: uninsdeletekeyifempty
+
+; 注册开机自启常驻热键守护，防止系统重启/锁屏解锁后重新抢占 Ctrl+Space
+Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "WeaselHotkeyFix"; ValueData: """{app}\user\tools\WeaselHotkeyFix.exe"""; Flags: uninsdeletevalue
 
 [Icons]
 Name: "{group}\小狼毫输入法设定"; Filename: "{app}\weasel-0.17.4\WeaselDeployer.exe"; WorkingDir: "{app}\weasel-0.17.4"
@@ -66,7 +79,7 @@ function PrepareToInstall(var NeedsRestart: Boolean): String;
 var
   ResultCode: Integer;
 begin
-  Exec('taskkill.exe', '/F /IM WeaselServer.exe /IM WeaselDeployer.exe /T', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+  Exec('taskkill.exe', '/F /IM WeaselServer.exe /IM WeaselDeployer.exe /IM WeaselHotkeyFix.exe /T', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
   Result := '';
 end;
 
@@ -74,10 +87,13 @@ end;
 ; 向 Windows 注册小狼毫 TSF 输入法服务（32位+64位）
 Filename: "{app}\weasel-0.17.4\WeaselSetup.exe"; Parameters: "/i"; StatusMsg: "正在向 Windows 注册输入法服务..."; Flags: runhidden
 
+; 启动常驻内核热键守护程序（释放系统对 Ctrl+Space 的拦截）
+Filename: "{app}\user\tools\WeaselHotkeyFix.exe"; Flags: nowait runhidden
+
 ; 启动小狼毫常驻服务，实现装完立即可打字
 Filename: "{app}\weasel-0.17.4\WeaselServer.exe"; Parameters: "/run"; Description: "立即启动小狼毫输入法服务"; Flags: nowait postinstall skipifsilent
 
 [UninstallRun]
 ; 卸载前结束服务并注销输入法
-Filename: "taskkill.exe"; Parameters: "/F /IM WeaselServer.exe /IM WeaselDeployer.exe /T"; Flags: runhidden; RunOnceId: "KillWeasel"
+Filename: "taskkill.exe"; Parameters: "/F /IM WeaselServer.exe /IM WeaselDeployer.exe /IM WeaselHotkeyFix.exe /T"; Flags: runhidden; RunOnceId: "KillWeasel"
 Filename: "{app}\weasel-0.17.4\WeaselSetup.exe"; Parameters: "/u"; StatusMsg: "正在从 Windows 注销输入法服务..."; Flags: runhidden

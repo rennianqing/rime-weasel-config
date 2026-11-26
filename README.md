@@ -16,8 +16,8 @@
    * 具备智能大写（`autocap_filter`）与英文候选降频（`reduce_english_filter`）机制，互不干扰。
 
 3. **快捷键自由置顶与取消置顶**：
-   * **强制置顶**：**`Ctrl + Alt + P`**（**P** = **P**in）。候选框出现时选中目标词按下，该词瞬间锁定至第 1 位；
-   * **取消置顶**：**`Ctrl + Alt + U`**（**U** = **U**npin）。选中已置顶词按下，立即恢复正常词频排序；
+   * **强制置顶**：**`Ctrl + ↑`**。候选框出现时选中目标词按下，该词瞬间锁定至第 1 位；
+   * **取消置顶**：**`Ctrl + ↓`**。选中已置顶词按下，立即恢复正常词频排序；
    * 置顶规则自动写入并持久化保存在 `pinned_candidates.txt` 中。
 
 4. **现代化 UI 与字体精修**：
@@ -52,7 +52,7 @@ user/
 ├── cn_dicts/              # 中文词库（8105, base, ext, tencent, others）
 ├── en_dicts/              # 英汉混输词库（cn_en, en, en_ext）
 ├── lua/                   # Lua 扩展脚本
-│   ├── pin_candidate.lua  # Ctrl+Alt+P 置顶与 Ctrl+Alt+U 取消置顶处理器
+│   ├── pin_candidate.lua  # Ctrl+↑ 置顶与 Ctrl+↓ 取消置顶处理器
 │   ├── pin_store.lua      # 置顶词内存管理与文件持久化
 │   ├── pin_cand_filter.lua# 置顶候选项排序滤镜
 │   ├── digit_punct.lua    # 数字后核心分隔符(,.:)智能半/全角切换处理器
@@ -77,12 +77,12 @@ user/
 
 ### 方式一：一键独立完整安装包（⭐️⭐️⭐️⭐️⭐️ 最推荐，零依赖秒开）
 直接下载内置完整引擎、华为鸿蒙黑体与预编译词库的独立安装程序：
-* **下载地址**：[Weasel-Setup-v1.1.0-Enhanced.exe (56.9 MB)](https://github.com/rennianqing/rime-weasel-config/releases/download/v1.1.0/Weasel-Setup-v1.1.0-Enhanced.exe)
+* **下载地址**：[Weasel-Setup-v1.2.0-Enhanced.exe](https://github.com/rennianqing/rime-weasel-config/releases/download/v1.2.0/Weasel-Setup-v1.2.0-Enhanced.exe)
 * **安装特性**：
   1. **零第三方依赖**：自动释放并向 Windows 系统注册华为鸿蒙黑体（`HarmonyOS Sans SC`），无需手动下载安装字体；
   2. **自由选择目录**：默认安装路径为 `D:\Program Files\Rime`，安装时支持在向导界面自由自定义安装盘符与路径；
   3. **跳过首次编译秒开**：随包已封装预编译完成的高性能二进制词库（`build/`），安装完成后自动注册输入法并启动服务，**彻底告别首次部署漫长的 15 秒卡顿**，装完立刻直接打字；
-  4. **全套配置预设完毕**：默认即为横排 9 候选词、深色微边框、中英混输、`Ctrl+Alt+P`（置顶）与 `Ctrl+Alt+U`（取消置顶）。
+  4. **全套配置预设完毕**：默认即为横排 9 候选词、深色微边框、中英混输、`Ctrl+↑`（置顶）与 `Ctrl+↓`（取消置顶）。
 
 ---
 

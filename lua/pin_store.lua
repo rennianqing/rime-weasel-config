@@ -44,7 +44,7 @@ function pin_store.load()
         -- 若文件不存在，初始化空文件及说明头
         local wf = io.open(pin_store.filepath, "w")
         if wf then
-            wf:write("# 快捷键置顶候选词列表 (Ctrl+Alt+P 置顶, Ctrl+Alt+U 取消置顶)\n")
+            wf:write("# 快捷键置顶候选词列表 (Ctrl+↑ 置顶, Ctrl+↓ 取消置顶)\n")
             wf:write("# 格式：编码<Tab>字词（支持手动编辑，编辑后重新部署即可生效）\n")
             wf:close()
         end
@@ -58,7 +58,7 @@ function pin_store.save()
     end
     local f = io.open(pin_store.filepath, "w")
     if f then
-        f:write("# 快捷键置顶候选词列表 (Ctrl+Alt+P 置顶, Ctrl+Alt+U 取消置顶)\n")
+        f:write("# 快捷键置顶候选词列表 (Ctrl+↑ 置顶, Ctrl+↓ 取消置顶)\n")
         f:write("# 格式：编码<Tab>字词（支持手动编辑，编辑后重新部署即可生效）\n")
         for c, words in pairs(pin_store.data) do
             for _, w in ipairs(words) do
