@@ -33,10 +33,10 @@
    * 支持自然拼音联想常用符号：如输入 cheng 候选出现 ×，输入 chu 出现 ÷，输入 jia 出现 +，输入 jian 出现 -，输入 dengyu 出现 =，输入 gou / dui 出现 √，输入 du 出现 °，输入 pai 出现 π，输入 jiantou 出现 → 等；
    * 严格过滤所有彩色图片表情（Emoji），保持输入面板纯粹专业。
 
-6. **中英文切换与热键防误触优化**：
+6. **中英文切换与内生防回弹优化（零外部守护依赖）**：
    * **禁用 Shift 切换中英文**：屏蔽左/右 Shift 键单击切换，彻底杜绝写代码（如下划线、大写字母）、代码缩进或游戏时的误触切输入法困扰；
    * **切换快捷键改为 `Ctrl + Space`**：原生绑定为全局中西文快速切换（`ascii_mode`）；
-   * **解决 Windows 系统热键冲突**：解除 Windows 底层对 `Ctrl + Space` 的拦截强占，按下瞬间（KeyDown）即刻生效，彻底消除“需先放开 Ctrl 后放开空格”的释放时序判定 Bug。
+   * **引擎内生防回弹消抖（`ascii_debounce.lua`）**：无需任何外部守护进程，直接在 Rime 引擎内部识别并消除 Windows CUAS/IMM32 兼容层（如 Axure RP 9 等 32 位自绘应用）引发的毫秒级二次翻转回弹。
 
 7. **数字后标点智能切换（半角默认 + 删后重输转全角）**：
    * **数字后直出半角**：在数字后首次输入核心分隔符 `,` `.` `:` 时直接上屏半角符号（流畅输入 `3.14`、`1,000`、`12:30`，支持主键盘与小键盘）；
@@ -52,6 +52,7 @@ user/
 ├── cn_dicts/              # 中文词库（8105, base, ext, tencent, others）
 ├── en_dicts/              # 英汉混输词库（cn_en, en, en_ext）
 ├── lua/                   # Lua 扩展脚本
+│   ├── ascii_debounce.lua # 中英文切换引擎内生防回弹消抖处理器（兼容 Axure 等 32 位 IMM32 应用）
 │   ├── pin_candidate.lua  # Ctrl+↑ 置顶与 Ctrl+↓ 取消置顶处理器
 │   ├── pin_store.lua      # 置顶词内存管理与文件持久化
 │   ├── pin_cand_filter.lua# 置顶候选项排序滤镜
@@ -77,7 +78,7 @@ user/
 
 ### 方式一：一键独立完整安装包（⭐️⭐️⭐️⭐️⭐️ 最推荐，零依赖秒开）
 直接下载内置完整引擎、华为鸿蒙黑体与预编译词库的独立安装程序：
-* **下载地址**：[Weasel-Setup-v1.2.0-Enhanced.exe](https://github.com/rennianqing/rime-weasel-config/releases/download/v1.2.0/Weasel-Setup-v1.2.0-Enhanced.exe)
+* **下载地址**：[Weasel-Setup-v1.2.1-Enhanced.exe](https://github.com/rennianqing/rime-weasel-config/releases/download/v1.2.1/Weasel-Setup-v1.2.1-Enhanced.exe)
 * **安装特性**：
   1. **零第三方依赖**：自动释放并向 Windows 系统注册华为鸿蒙黑体（`HarmonyOS Sans SC`），无需手动下载安装字体；
   2. **自由选择目录**：默认安装路径为 `D:\Program Files\Rime`，安装时支持在向导界面自由自定义安装盘符与路径；

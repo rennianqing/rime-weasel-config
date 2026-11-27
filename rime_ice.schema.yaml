@@ -44,6 +44,7 @@ switches:
 # 输入引擎
 engine:
   processors:
+    - lua_processor@*ascii_debounce   # 引擎内生中英文切换防回弹消抖（兼容 Axure 等 32 位 IMM32 应用，零外部依赖）
     - lua_processor@*pin_candidate    # 快捷键强制候选词置顶 (Ctrl+↑ 置顶 / Ctrl+↓ 取消置顶)
     - lua_processor@*select_character  # 以词定字
     - ascii_composer
